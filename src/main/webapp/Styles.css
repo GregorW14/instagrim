@@ -8,9 +8,17 @@ and open the template in the editor.
     Author     : Administrator
 */
 
+h1 {
+    font-family: 'Indie Flower', cursive;
+    text-align: left; 
+}
 
 nav {
-    text-align: left;
-    border: 2px;
-    float: right;
+    background-color: blue;
+    float: left;
+}
+
+footer {
+    float: bottom;
+    background-color: red;
 }

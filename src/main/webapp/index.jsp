@@ -12,6 +12,8 @@
     <head>
         <title>Instagrim</title>
         <link rel="stylesheet" type="text/css" href="Styles.css" />
+        <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
@@ -45,10 +47,14 @@
             </ul>
         </nav>
         <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-                <li>&COPY; Andy C</li>
-            </ul>
+                <p><a href="/Instagrim">Home</a></p>
+                
+            <form method="GET"  action="Logout">
+                <br/>
+                <input type="submit" value="Logout"> 
+            </form>
+                
+                <p>&COPY; Andy C</p>    
         </footer>
     </body>
 </html>

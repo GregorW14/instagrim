@@ -25,6 +25,8 @@
         </nav>
        
         <article>
+            <br>
+            <br>
             <h3>Register as user</h3>
             <form method="POST"  action="Register">
                 <ul>

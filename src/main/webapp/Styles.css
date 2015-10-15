@@ -14,11 +14,5 @@ h1 {
 }
 
 nav {
-    background-color: blue;
     float: left;
-}
-
-footer {
-    float: bottom;
-    background-color: red;
 }

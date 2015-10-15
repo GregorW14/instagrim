@@ -12,8 +12,12 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Set;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -27,7 +31,7 @@ public class User {
         
     }
     
-    public boolean RegisterUser(String username, String Password, String first_name, String last_name, String email, String street, String city, int zip){
+    public boolean RegisterUser(String username, String Password, String first_name, String last_name, String email_address, String street, String city, int zip){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
         try {
@@ -37,12 +41,21 @@ public class User {
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("insert into userprofiles (login,password,first_name,last_name,email,street,city,zip) Values(?,?,?,?,?,?,?,?)");
-       
+        Set<String> email = new HashSet<String>();
+        email.add(email_address);
+       /*Statement statement = QueryBuilder
+      .select()
+      .all()
+      .from("instagrim", "userprofiles");
+   System.out.println(session
+      .execute(statement)
+      .all()); */
+   
+        PreparedStatement ps = session.prepare("insert into userprofiles (login,password,first_name,last_name,email,address) Values(?,?,?,?,?)");
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
-                        username,EncodedPassword));
+                        username,EncodedPassword,first_name,last_name,email));
         //We are assuming this always works.  Also a transaction would be good here !
         
         return true;

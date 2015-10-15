@@ -33,8 +33,13 @@
                             String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
-
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+            <form method="GET"  action="Logout">
+                <br/>
+                <li><a href="profile.jsp">Profile</a></li>
+                <br>
+                <input type="submit" value="Logout"> 
+            </form>
                     <%}
                             }else{
                                 %>
@@ -46,15 +51,15 @@
                     }%>
             </ul>
         </nav>
+            <br>
+            <br>
+            <br>
+            <br>
         <footer>
                 <p><a href="/Instagrim">Home</a></p>
                 
-            <form method="GET"  action="Logout">
-                <br/>
-                <input type="submit" value="Logout"> 
-            </form>
                 
-                <p>&COPY; Andy C</p>    
+                <p>&COPY; Andy C</p> 
         </footer>
     </body>
 </html>

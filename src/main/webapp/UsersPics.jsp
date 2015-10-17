@@ -10,23 +10,37 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="/Instagrim/Styles.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="/Instagrim/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="/Instagrim/Style.css" />
+        <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <header>
+        <div id="container">
+            <div id="header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>InstaGrim !</h1>
+                    </div>
+                </div>
+                <h2>Your world in Black and White</h2>
+            </div>
         
-        <h1>InstaGrim ! </h1>
-        <h2>Your world in Black and White</h2>
-        </header>
-        
-        <nav>
-            <ul>
-                <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
-                <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
-            </ul>
-        </nav>
+        <div class="row">
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/index.jsp">Home</a>
+            </div>
+            
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/upload.jsp">Upload</a>
+            </div>
+            
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/Images/majed">Sample Images</a>
+            </div>
+            
+        </div>
  
         <article>
             <h1>Your Pics</h1>
@@ -43,16 +57,12 @@
                 Pic p = (Pic) iterator.next();
 
         %>
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/><%
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/><br><%
 
             }
             }
         %>
         </article>
-        <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
-        </footer>
+      </div>
     </body>
 </html>

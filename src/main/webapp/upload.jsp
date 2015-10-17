@@ -10,18 +10,29 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="Styles.css" />
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="Style.css" />
+        <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <h1>InstaGrim ! </h1>
-        <h2>Your world in Black and White</h2>
-        <nav>
-            <ul>
-                <li class="nav"><a href="upload.jsp">Upload</a></li>
-                <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
-            </ul>
-        </nav>
- 
+        <div id="container">
+            <div id="header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>InstaGrim !</h1>
+                    </div>
+                </div>
+                <h2>Your world in Black and White</h2>
+            </div>
+        <div class="row">
+            <div class="col-md-3 navItem">
+                <a href="index.jsp">Home</a>
+            </div>
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/Images/majed">Sample Images</a>
+            </div>
+        </div>
+        <br>
         <article>
             <h3>File Upload</h3>
             <form method="POST" enctype="multipart/form-data" action="Image">
@@ -32,10 +43,9 @@
             </form>
 
         </article>
-        <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
+        <footer>              
+                <p>&COPY; Gregor Whyte</p>    
         </footer>
+        </div>
     </body>
 </html>

@@ -8,24 +8,32 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
 <!DOCTYPE html>
+
 <html>
+
     <head>
         <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="Styles.css" />
-        <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
-        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="Style.css" />
+        <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+       
     </head>
+    
     <body>
-        <header>
-            <h1>InstaGrim ! </h1>
-            <h2>Your world in Black and White</h2>
-        </header>
-        <nav>
-            <ul>
-
-               
-                <li><a href="upload.jsp">Upload</a></li>
+       <div id="container">
+            <div id="header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>InstaGrim !</h1>
+                    </div>
+                </div>
+                <h2>Your world in Black and White</h2>
+            </div>
+        <div class="row">
+            <div class="col-md-3 navItem">
+                <a href="index.jsp">Home</a>
+            </div>
                     <%
                         
                         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
@@ -33,33 +41,57 @@
                             String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
-                <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-            <form method="GET"  action="Logout">
-                <br/>
-                <li><a href="profile.jsp">Profile</a></li>
-                <br>
-                <input type="submit" value="Logout"> 
-            </form>
+                    <div class="col-md-3 navItem">
+                    <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
+                    </div>
+                
+                <div class="col-md-3 navItem">
+                 <a href="profile.jsp">Profile</a>
+                </div>
+                <div class="col-md-3 navItem">
+                    <a href="/Instagrim/Logout" onclick="return confirm('Are you sure you would like to logout?')">Logout</a>
+                </div>
                     <%}
                             }else{
                                 %>
-                 <li><a href="register.jsp">Register</a></li>
-                <li><a href="login.jsp">Login</a></li>
+             <div class="col-md-3 navItem">
+                 <a href="register.jsp">Register</a>
+             </div>
+             <div class="col-md-3 navItem">
+                <a href="login.jsp">Login</a>
+             </div>
                 <%
                                         
                             
                     }%>
             </ul>
-        </nav>
+        </div>
             <br>
-            <br>
-            <br>
-            <br>
-        <footer>
-                <p><a href="/Instagrim">Home</a></p>
+            <div class="main">
+                <div class="row">
+                    <div class="col-md-6">
+                      <img src="photo2.jpg" class="largeImg" alt="Bridge"/>
+                    </div>
+                    <div class="col-md-6">
+                       <p class="largeText">Share your photos with friends.</p>
+                    </div>
+            
+                </div>
                 
                 
-                <p>&COPY; Andy C</p> 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
+        <footer> 
+                <p>&COPY; Gregor Whyte</p> 
         </footer>
+       </div>
     </body>
 </html>

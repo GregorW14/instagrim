@@ -51,7 +51,7 @@ public class User {
       .execute(statement)
       .all()); */
    
-        PreparedStatement ps = session.prepare("insert into userprofiles (login,password,first_name,last_name,email,address) Values(?,?,?,?,?)");
+        PreparedStatement ps = session.prepare("insert into userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'

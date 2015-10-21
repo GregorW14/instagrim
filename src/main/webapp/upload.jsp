@@ -29,7 +29,13 @@
                 <a href="index.jsp">Home</a>
             </div>
             <div class="col-md-3 navItem">
-                <a href="/Instagrim/Images/majed">Sample Images</a>
+                 <a href="/Instagrim/Profile">Profile</a>
+            </div>
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/samplePics.jsp">Sample Images</a>
+            </div>
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/Logout" onclick="return confirm('Are you sure want to logout?')">Logout</a>
             </div>
         </div>
         <br>

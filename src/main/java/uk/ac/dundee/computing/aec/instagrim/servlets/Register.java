@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
+import uk.ac.dundee.computing.aec.instagrim.stores.ProfileBean;
 
 /**
  *
@@ -30,18 +31,14 @@ public class Register extends HttpServlet {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
+    
+        @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+       rd.forward(request, response);
+    }
 
 
-
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,13 +49,34 @@ public class Register extends HttpServlet {
         String lastname=request.getParameter("lastname");
         String street=request.getParameter("street");
         String city=request.getParameter("city");
-        String zip=request.getParameter("zip");
+        int zip=Integer.parseInt(request.getParameter("zip"));
+        String[] address = {street, city, Integer.toString(zip)};
         
-        User us=new User();
-        us.setCluster(cluster);
-        us.RegisterUser(username, password, firstname, lastname, email, street, city, Integer.parseInt(zip));
-        
-	response.sendRedirect("/Instagrim/login.jsp");
+        ProfileBean profile = new ProfileBean();
+        profile.setFirstName(firstname);
+        profile.setLastName(lastname);
+        profile.setEmail(email);
+        profile.setAddress(address);
+   
+        //check if fields have data
+            if(password.isEmpty() || username.isEmpty() || firstname.isEmpty() || lastname.isEmpty() || email.isEmpty() || street.isEmpty() || city.isEmpty())
+            {
+              response.sendRedirect("register.jsp");
+            }
+            else
+            {
+            User us= new User();
+            us.setCluster(cluster);
+            //sets boolean to result of register user
+            String result= us.RegisterUser(username, password, profile);
+            //if the result was true user was registered and directed to home page and logged in automatically
+                if(result.equals("Success"))
+                {
+                    response.sendRedirect("login.jsp"); 
+                }else{
+                    response.sendRedirect("register.jsp");
+                }
+            }
         
     }
 

@@ -35,6 +35,13 @@ public class Login extends HttpServlet {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
+    
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        rd.forward(request, response);
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -64,11 +71,12 @@ public class Login extends HttpServlet {
             
             session.setAttribute("LoggedIn", lg);
             System.out.println("Session in servlet "+session);
-            RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");
+            RequestDispatcher rd=request.getRequestDispatcher("/");
 	    rd.forward(request,response);
             
         }else{
-            response.sendRedirect("/Instagrim/login.jsp");
+              RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+              rd.forward(request, response);
         }
         
     }

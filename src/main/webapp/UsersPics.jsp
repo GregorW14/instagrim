@@ -37,13 +37,16 @@
             </div>
             
             <div class="col-md-3 navItem">
-                <a href="/Instagrim/Images/majed">Sample Images</a>
+                <a href="/Instagrim/samplePics.jsp">Sample Images</a>
+            </div>
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/Logout" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
             </div>
             
         </div>
  
         <article>
-            <h1>Your Pics</h1>
+            <h1>Your Pictures</h1>
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
             if (lsPics == null) {

@@ -7,8 +7,17 @@
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,7 +25,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
+import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
 import uk.ac.dundee.computing.aec.instagrim.stores.ProfileBean;
 
@@ -53,10 +64,12 @@ public class Register extends HttpServlet {
         String[] address = {street, city, Integer.toString(zip)};
         
         ProfileBean profile = new ProfileBean();
+        profile.setUsername(username);
         profile.setFirstName(firstname);
         profile.setLastName(lastname);
         profile.setEmail(email);
         profile.setAddress(address);
+        
    
         //check if fields have data
             if(password.isEmpty() || username.isEmpty() || firstname.isEmpty() || lastname.isEmpty() || email.isEmpty() || street.isEmpty() || city.isEmpty())
@@ -69,15 +82,45 @@ public class Register extends HttpServlet {
             us.setCluster(cluster);
             //sets boolean to result of register user
             String result= us.RegisterUser(username, password, profile);
+            uploadDefaultProfilePicture(username);
             //if the result was true user was registered and directed to home page and logged in automatically
                 if(result.equals("Success"))
                 {
-                    response.sendRedirect("login.jsp"); 
+                    HttpSession session = request.getSession();
+                    session.setAttribute("ProfileBean", profile);
+                    RequestDispatcher rd = request.getRequestDispatcher("/");
+                    rd.forward(request, response);
+                    
                 }else{
                     response.sendRedirect("register.jsp");
                 }
             }
         
+    }
+    
+    public void uploadDefaultProfilePicture(String username) throws IOException {
+        try 
+        {
+            String profilePictureName = "mario.png";
+            Path path = Paths.get("/images/" + profilePictureName);
+            String type = Files.probeContentType(path);
+           
+            InputStream bais = getClass().getResourceAsStream("/images/" + profilePictureName);
+            
+            BufferedImage bufferedImage = ImageIO.read(bais);
+            
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            byte[] imageInByte = baos.toByteArray();
+            User us = new User();
+            us.setCluster(cluster);
+            us.setProfilePicture(imageInByte, type, "ProfilePicture", username);
+            bais.close();
+        } 
+        catch (Exception e) 
+        {
+            System.out.println(e);
+        }
     }
 
     /**

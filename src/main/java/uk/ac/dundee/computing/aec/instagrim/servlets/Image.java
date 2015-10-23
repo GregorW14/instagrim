@@ -95,9 +95,9 @@ public class Image extends HttpServlet {
     }
 
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PicModel tm = new PicModel();
-        tm.setCluster(cluster);
-        java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
+        PicModel pm = new PicModel();
+        pm.setCluster(cluster);
+        java.util.LinkedList<Pic> lsPics = pm.getPicsForUser(User);
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
         rd.forward(request, response);
@@ -105,11 +105,11 @@ public class Image extends HttpServlet {
     }
 
     private void DisplayImage(int type,String Image, HttpServletResponse response) throws ServletException, IOException {
-        PicModel tm = new PicModel();
-        tm.setCluster(cluster);
+        PicModel pm = new PicModel();
+        pm.setCluster(cluster);
   
         
-        Pic p = tm.getPic(type,java.util.UUID.fromString(Image));
+        Pic p = pm.getPic(type,java.util.UUID.fromString(Image));
         
         OutputStream out = response.getOutputStream();
 
@@ -127,9 +127,8 @@ public class Image extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        for (Part part : request.getParts()) {
-            System.out.println("Part Name " + part.getName());
-
+        for (Part part : request.getParts()) 
+        {
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();
             
@@ -144,10 +143,9 @@ public class Image extends HttpServlet {
             if (i > 0) {
                 byte[] b = new byte[i + 1];
                 is.read(b);
-                System.out.println("Length : " + b.length);
-                PicModel tm = new PicModel();
-                tm.setCluster(cluster);
-                tm.insertPic(b, type, filename, username);
+                PicModel pm = new PicModel();
+                pm.setCluster(cluster);
+                pm.insertPic(b, type, filename, username);
 
                 is.close();
             }

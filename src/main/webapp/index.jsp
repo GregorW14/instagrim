@@ -32,7 +32,7 @@
             </div>
         <div class="row">
             <div class="col-md-3 navItem">
-                <a href="index.jsp">Home</a>
+                <a href="/Instagrim/">Home</a>
             </div>
                     <%
                         
@@ -77,17 +77,7 @@
                     </div>
             
                 </div>
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+               
             </div>
         <footer> 
                 <p>&COPY; Gregor Whyte</p> 

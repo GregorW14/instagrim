@@ -29,7 +29,7 @@
         
         <div class="row">
             <div class="col-md-3 navItem">
-                <a href="/Instagrim/index.jsp">Home</a>
+                <a href="/Instagrim/">Home</a>
             </div>
             
             <div class="col-md-3 navItem">

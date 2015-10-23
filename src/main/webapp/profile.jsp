@@ -29,36 +29,70 @@
         
         <div class="row">
             <div class="col-md-3 navItem">
-                <a href="index.jsp">Home</a>
+                <a href="/Instagrim/">Home</a>
             </div>
+            <%
+                        
+                    LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+                    if (lg != null) 
+                    {
+                        if (lg.getlogedin()) 
+                        {
+                %>
             
             <div class="col-md-3 navItem">
-              <a href="settings.jsp">Settings</a>
+              <a href="/Instagrim/upload.jsp">Upload</a>
             </div> 
+            <div class="col-md-3 navItem">
+              <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
+            </div>
             
             <div class="col-md-3 navItem">
               <a href="/Instagrim/Logout" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
             </div>   
         </div>
-            
+            <div class="main">
+               <div class="col-md-4">
+                   
         <h1><%
-                        
-                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+                       
                         if (lg != null) {
                             String userName = lg.getUsername();
                             session.setAttribute("Name", userName);
                     %>
-                    ${Name}'s Profile</h1>
+                    ${Name}</h1>
                     <%
                        session.setAttribute("Name", null);
                         }
                         %>
+                  <br/>      
                         
-        <div class="main">
-               <div class="col-md-4">
-                  <img src="photo2.jpg" class="profileImg" alt="Bridge"/>
+                  <img id="profilePicture" class="thumbnail" alt="User profile picture" src="/Instagrim/ProfilePic">
+               
+            <form method="POST" enctype="multipart/form-data" action="ProfilePic">
+                File to upload: <input type="file" name="profilepic"><br/>
+                <br/>
+                <input type="submit" value="Update Profile Pic">
+            </form>
                </div>
-        </div>
+                  
+            
+            </div>
+                <%  
+                        }
+                    }
+                    else
+                    {
+                %>
+                <div class="col-md-3 navItem">
+                    <a href="/Instagrim/Login">Login</a>
+                </div>
+                <div class="col-md-3 navItem">
+                    <a href="/Instagrim/Register">Register</a>
+                </div>
+                <%
+                    }
+                %>
                         <%
                 String username = "";
                 String firstName = "";
@@ -83,7 +117,7 @@
                 %>
                  <div class="col-md-8">
               <h3>User Details</h3>
-              <form method="POST" class="form-horizontal" role="form">
+              <form method="POST" action="UpdateProfile" class="form-horizontal" role="form">
                   <div class="form-group">
                   <label class="col-md-3 control-label">Username:</label>
                   <div class="col-md-8">
@@ -93,41 +127,45 @@
                 <div class="form-group">
                   <label class="col-lg-3 control-label">First name:</label>
                   <div class="col-lg-8">
-                    <input name="firstName" class="form-control" value="<%=firstName%>" type="text">
+                    <input name="firstName" class="form-control" value="<%=firstName%>" type="text" required>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Last name:</label>
                   <div class="col-lg-8">
-                    <input name="lastName" class="form-control" value="<%=lastName%>" type="text">
+                    <input name="lastName" class="form-control" value="<%=lastName%>" type="text" required>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Email:</label>
                   <div class="col-lg-8">
-                    <input name="email" class="form-control" value="<%=email%>" type="text">
+                    <input name="email" class="form-control" value="<%=email%>" type="text" required>
                   </div>
                 </div>
                   
                 <div class="form-group">
                   <label class="col-md-3 control-label">Street:</label>
                   <div class="col-md-8">
-                    <input name="street" id="street" class="form-control" value="<%=address[0]%>" type="text">
+                    <input name="street" id="street" class="form-control" value="<%=address[0]%>" type="text" required>
                   </div>
                 </div>
                   <div class="form-group">
                   <label class="col-md-3 control-label">City:</label>
                   <div class="col-md-8">
-                    <input name="city" id="city" class="form-control" value="<%=address[1]%>" type="text">
+                    <input name="city" id="city" class="form-control" value="<%=address[1]%>" type="text" required>
                   </div>
                 </div>
                   <div class="form-group">
                   <label class="col-md-3 control-label">Zip:</label>
                   <div class="col-md-8">
-                    <input name="zip" id="zip" class="form-control" value="<%=address[2]%>" type="text">
+                    <input type="text" pattern="[0-9]" name="zip" id="zip" class="form-control" value="<%=address[2]%>" maxlength=8 required>
                   </div>
                 </div>
-              </form>
+                     <input type="submit" class="" value="Update Profile"/>
+               </form>
+               <form method="POST" action="DeleteProfile">
+                     <input type="submit" class="" value="Delete Profile" onclick="return confirm('Are you sure you would like to delete your profile?')"/>
+               </form>
                        
         <footer>               
                 <p>&COPY; Gregor Whyte</p>    

@@ -52,10 +52,7 @@ public class ProfileBean {
         this.address = address;
     }
     
-    public void setProfilePic(Pic profilePic)
-    {
-        this.profilePic = profilePic;
-    }
+
     
      public String getUsername()
     {
@@ -95,6 +92,11 @@ public class ProfileBean {
     public int getZip()
     {
         return zip;
+    }
+    
+    public void setProfilePic(Pic pic)
+    {
+        this.profilePic = pic;
     }
     
     public Pic getProfilePic()

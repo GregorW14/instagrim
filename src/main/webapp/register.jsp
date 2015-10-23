@@ -27,10 +27,10 @@
         
             <div class="row">
                 <div class="col-md-3 navItem">
-                    <a href="index.jsp">Home</a>
+                    <a href="/Instagrim/">Home</a>
                 </div>
                 <div class="col-md-3 navItem">
-                   <a href="/Instagrim/Images/majed">Sample Images</a>
+                   <a href="/Instagrim/samplePics.jsp">Sample Images</a>
                 </div>
             </div>
        

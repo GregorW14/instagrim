@@ -38,7 +38,8 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
  */
 @WebServlet(name = "Profile", urlPatterns = 
         {
-            "/Profile", 
+            "/Profile",
+            "/Profile/*",
             "/DeleteProfile",
             "/UpdateProfile",
             "/ProfilePic"
@@ -65,7 +66,6 @@ public class Profile extends HttpServlet {
       @Override
     public void init(ServletConfig config) throws ServletException 
     {
-        // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
     
@@ -164,7 +164,7 @@ public class Profile extends HttpServlet {
                 try {
                     profile = user.getProfile(profile, lg.getUsername());
                     request.setAttribute("ProfileBean", profile);
-                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/profile.jsp");
                 rd.forward(request, response);
                 } catch (Exception ex) {
                     Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,11 +173,10 @@ public class Profile extends HttpServlet {
             }
             else
         {
-            RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
-            rd.forward(request, response);
+            response.sendRedirect("index.jsp");
         }
     
-        }   
+    }   
         
     
    
@@ -192,25 +191,24 @@ public class Profile extends HttpServlet {
         
         
       
-        if (args[1].equals("Profile"))
+        if (args[2].equals("Profile"))
         {
         }    
-        else if (args[1].equals("ProfilePic"))
+        else if (args[2].equals("ProfilePic"))
         {
-            
             try {
                 updateProfilePic(request, response, username);
-                response.sendRedirect("/Instagrim/Profile");
+                response.sendRedirect("/Instagrim/Profile/"+lg.getUsername());
             } catch (Exception ex) {
                 Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else if (args[1].equals("UpdateProfile"))
+        else if (args[2].equals("UpdateProfile"))
         {
             updateUserProfile(request, response, username);
-            response.sendRedirect("/Instagrim/Profile");
+            response.sendRedirect("/Instagrim/Profile/"+lg.getUsername());
         }
-        else if (args[1].equals("DeleteProfile"))
+        else if (args[2].equals("DeleteProfile"))
         {
             deleteProfile(request, response, username);
             response.sendRedirect("/Instagrim/Logout");

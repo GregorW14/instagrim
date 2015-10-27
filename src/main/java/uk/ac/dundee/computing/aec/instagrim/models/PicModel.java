@@ -26,11 +26,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Date;
+import java.util.UUID;
 import javax.imageio.ImageIO;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
 
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
+import uk.ac.dundee.computing.aec.instagrim.stores.CommentBean;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 //import uk.ac.dundee.computing.aec.stores.TweetStore;
 
@@ -46,24 +48,30 @@ public class PicModel {
         this.cluster = cluster;
     }
 
-    public void insertPic(byte[] b, String type, String name, String user) {
+    public void insertPic(byte[] b, String type, String name, String user, String filter) {
         try {
+            System.out.println("FILTER IN Insert 1----------"+filter);
             Convertors convertor = new Convertors();
-
+            System.out.println("FILTER IN Insert 2----------"+filter);
             String types[]=Convertors.SplitFiletype(type);
+            System.out.println("FILTER IN Insert 3----------"+filter);
             ByteBuffer buffer = ByteBuffer.wrap(b);
+            System.out.println("FILTER IN Insert 4----------"+filter);
             int length = b.length;
             java.util.UUID picid = convertor.getTimeUUID();
+            System.out.println("FILTER IN Insert 5----------"+filter);
             
             //The following is a quick and dirty way of doing this, will fill the disk quickly !
             Boolean success = (new File("/var/tmp/instagrim/")).mkdirs();
             FileOutputStream output = new FileOutputStream(new File("/var/tmp/instagrim/" + picid));
+            
+            System.out.println("FILTER IN Insert--xx--------"+filter);
 
             output.write(b);
-            byte []  thumbb = picresize(picid.toString(),types[1]);
+            byte []  thumbb = picresize(picid.toString(),types[1], filter);
             int thumblength= thumbb.length;
             ByteBuffer thumbbuf=ByteBuffer.wrap(thumbb);
-            byte[] processedb = picdecolour(picid.toString(),types[1]);
+            byte[] processedb = picdecolour(picid.toString(),types[1], filter);
             ByteBuffer processedbuf=ByteBuffer.wrap(processedb);
             int processedlength=processedb.length;
             Session session = cluster.connect("instagrim");
@@ -83,10 +91,11 @@ public class PicModel {
         }
     }
 
-    public byte[] picresize(String picid,String type) {
+    public byte[] picresize(String picid,String type, String filter) {
         try {
             BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
-            BufferedImage thumbnail = createThumbnail(BI);
+            System.out.println("FILTER IN Resize----------"+filter);
+            BufferedImage thumbnail = createThumbnail(BI, filter);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(thumbnail, type, baos);
             baos.flush();
@@ -100,10 +109,11 @@ public class PicModel {
         return null;
     }
     
-    public byte[] picdecolour(String picid,String type) {
+    public byte[] picdecolour(String picid,String type, String filter) {
         try {
+            System.out.println("FILTER IN Decolour----------"+filter);
             BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
-            BufferedImage processed = createProcessed(BI);
+            BufferedImage processed = createProcessed(BI, filter);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(processed, type, baos);
             baos.flush();
@@ -116,15 +126,168 @@ public class PicModel {
         return null;
     }
 
-    public static BufferedImage createThumbnail(BufferedImage img) {
-        img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
-        // Let's add a little border before we return result.
+    public static BufferedImage createThumbnail(BufferedImage img, String filter) {
+         // Used for filter colour
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        int a = 0;
+        int col = 0;
+        
+        System.out.println("FILTER IN THUMB----------"+filter);
+        
+        switch (filter)
+        {
+            case "No Filter":
+            {
+                img = resize(img, Method.SPEED, 250);
+                return pad(img, 2);
+            }
+            case "GrayScale":
+            {
+                img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
+                return pad(img, 2);
+            }
+            case "Hot":
+            {
+                img = resize(img, Method.SPEED, 250);
+                
+                r = 255;
+                g = 128;
+                b = 0;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }
+            case "Cold":
+            {
+                img = resize(img, Method.SPEED, 250);
+                
+                r = 0;
+                g = 20;
+                b = 255;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }           
+            case "Bright":
+            {
+                img = resize(img, Method.SPEED, 250);
+                
+                r = 255;
+                g = 255;
+                b = 0;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }
+            case "Dark":
+            {
+                img = resize(img, Method.SPEED, 250);
+                
+                r = 32;
+                g = 32;
+                b = 32;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }            
+            default:
+            {
+                return null;
+            }
+        }
+        
+        // For every second pixel, colour it
+        for (int i = 0; i < img.getWidth(); i++)
+        {
+            for (int j = 0; j < img.getHeight(); j++)
+            {
+                img.setRGB(i, j, col);
+                j++;
+            }
+        }
         return pad(img, 2);
     }
     
-   public static BufferedImage createProcessed(BufferedImage img) {
-        int Width=img.getWidth()-1;
-        img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_GRAYSCALE);
+   public static BufferedImage createProcessed(BufferedImage img, String filter) {
+         // Used for filter colour
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        int a = 0;
+        int col = 0;
+        System.out.println("FILTER IN PROCESSED----------"+filter);
+        
+        switch (filter)
+        {
+            case "No Filter":
+            {
+                int Width=img.getWidth()-1;
+                img = resize(img, Method.SPEED, Width);
+                return pad(img, 4);
+            }
+            case "GrayScale":
+            {
+                int Width=img.getWidth()-1;
+                img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_GRAYSCALE);
+                return pad(img, 4);
+            }
+            case "Bright":
+            {
+                int Width=img.getWidth()-1;
+                img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
+                
+                r = 255;
+                g = 255;
+                b = 255;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }
+            case "Dark":
+            {
+                int Width=img.getWidth()-1;
+                img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
+                
+                r = 0;
+                g = 0;
+                b = 0;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }
+            case "Hot":
+            {
+                int Width=img.getWidth()-1;
+                img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
+                
+                r = 255;
+                g = 128;
+                b = 0;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }
+            case "Cold":
+            {
+                int Width=img.getWidth()-1;
+                img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
+                
+                r = 0;
+                g = 20;
+                b = 255;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }
+            default:
+            {
+                return null;
+            }
+        }
+        
+        // For every second pixel, colour it
+        for (int i = 0; i < img.getWidth(); i++)
+        {
+            for (int j = 0; j < img.getHeight(); j++)
+            {
+                img.setRGB(i, j, col);
+                j++;
+            }
+        }
         return pad(img, 4);
     }
    
@@ -209,6 +372,57 @@ public class PicModel {
 
     }
     
+    public java.util.LinkedList<CommentBean> getComments() 
+     {
+         java.util.LinkedList<CommentBean> commentList = new java.util.LinkedList<>();
+         Session session = cluster.connect("instagrim");
+        try 
+        {
+            PreparedStatement ps = session.prepare("select * from commentlist");
+            BoundStatement bs = new BoundStatement(ps);
+            ResultSet rs = null;
+            rs = session.execute(bs);
+            if(rs.isExhausted())
+            {
+            return null;
+            }else{
+                for (Row row : rs) 
+                {
+                    CommentBean commentBean = new CommentBean();
+                    commentBean.setPicID(row.getUUID("picid"));
+                    commentBean.setCommentID(row.getUUID("commentid"));
+                    commentBean.setUser(row.getString("user"));
+                    commentBean.setComment(row.getString("comment"));
+                    commentBean.setCommentDate(row.getDate("comment_added"));
+                    commentList.add(commentBean);
+                }
+            }
+        }
+        catch (Exception e) 
+        {      
+         return null;
+        }
+        return commentList;
+    }
     
+    public void addComment(UUID picID, String user, String comment)
+    {
+        Session session = cluster.connect("instagrim");
+        try 
+        {
+            UUID commentId = UUID.randomUUID();
+            Date dateAdded = new Date();     
+            PreparedStatement ps = session.prepare("insert into commentlist (commentid, picid, user, comment_added, comment) values (?, ?, ?, ?, ?)");
+            BoundStatement bs = new BoundStatement(ps);
+            session.execute(bs.bind(commentId, picID, user, dateAdded, comment));
+            
+            session.close();
+     
+        } catch (Exception e) {
+            System.out.println("Error --> " + e);
+        }
+    }
+    
+
 
 }

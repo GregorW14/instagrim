@@ -18,6 +18,13 @@ h1 {
     font-weight: bold;
 }
 
+h3
+{
+    font-family: cursive; 
+    font-size:40px;
+    font-weight: bold;
+}
+
 
 footer {
     font-size: 25px;
@@ -58,3 +65,11 @@ img.profileImg
 	-webkit-border-radius: 150px;
 	-moz-border-radius: 150px;
 }
+
+img.userPic
+{
+    width: 200%;
+    height: 200%;
+   
+}
+

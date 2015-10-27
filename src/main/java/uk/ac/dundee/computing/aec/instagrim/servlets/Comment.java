@@ -8,6 +8,7 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,12 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
+import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
+import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
+import uk.ac.dundee.computing.aec.instagrim.stores.CommentBean;
+import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
+import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 /**
  *
  * @author Greg
  */
-@WebServlet (name = "Comments", urlPatterns = {"/Comments"})
+@WebServlet (name = "Comment", urlPatterns = {"/Comment"})
 public class Comment extends HttpServlet 
 {
     private Cluster cluster;
@@ -34,24 +40,26 @@ public class Comment extends HttpServlet
     {
     }
 
+    @Override
     public void init(ServletConfig config) throws ServletException 
     {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
     
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
              throws ServletException, IOException {
         String comment = request.getParameter("comment");
         String username = request.getParameter("username");
         String picid = request.getParameter("picid");
+        PicModel pm = new PicModel();
+        pm.setCluster(cluster);
+        pm.addComment(UUID.fromString(picid), username, comment);
         
-        
-   
-        
+        response.sendRedirect("/Instagrim/Images/"+username);
     }
-    
-    
+   
     
     @Override
     public String getServletInfo() {

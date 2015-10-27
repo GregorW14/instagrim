@@ -12,8 +12,8 @@
     <head>
         <title>Profile</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="Style.css" />
+        <link href="/Instagrim/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="/Instagrim/Style.css" />
         <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     </head>
     <body>
@@ -26,41 +26,61 @@
                 </div>
                 <h2>Your world in Black and White</h2>
             </div>
+                                                <%
+                        
+                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+                        if (lg != null) {
+                            String UserName = lg.getUsername();
+                            if (lg.getlogedin()) {
+                    %>
+                <form action="/Instagrim/Search" method="POST">
+                    Search: <input type="text" name="searchTerm">
+                    <input type="submit" value="Submit">
+                  </form>
+                    <%
+                            }else{
+                                
+                            }
+                        }
+                                
+                                %>
         
         <div class="row">
             <div class="col-md-3 navItem">
                 <a href="/Instagrim/">Home</a>
             </div>
             <%
-                        
-                    LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+                       
                     if (lg != null) 
                     {
                         if (lg.getlogedin()) 
                         {
                 %>
             
-            <div class="col-md-3 navItem">
+            <div class="col-md-2 navItem">
               <a href="/Instagrim/upload.jsp">Upload</a>
             </div> 
-            <div class="col-md-3 navItem">
+            <div class="col-md-2 navItem">
               <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
             </div>
+            <div class="col-md-2 navItem">
+                <a href="/Instagrim/Profile"<%=lg.getUsername()%>>Profile</a>
+            </div>
             
-            <div class="col-md-3 navItem">
+            <div class="col-md-2 navItem">
               <a href="/Instagrim/Logout" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
             </div>   
         </div>
             <div class="main">
-               <div class="col-md-4">
-                   
-        <h1><%
+               <div class="col-md-2">
+                         
+        <h3><%
                        
                         if (lg != null) {
                             String userName = lg.getUsername();
                             session.setAttribute("Name", userName);
                     %>
-                    ${Name}</h1>
+                    ${Name}</h3>
                     <%
                        session.setAttribute("Name", null);
                         }
@@ -70,11 +90,12 @@
                   <img id="profilePicture" class="thumbnail" alt="User profile picture" src="/Instagrim/ProfilePic">
                
             <form method="POST" enctype="multipart/form-data" action="ProfilePic">
-                File to upload: <input type="file" name="profilepic"><br/>
+                File to upload: <input type="file" class="" name="profilepic"><br/>
                 <br/>
-                <input type="submit" value="Update Profile Pic">
+                <input type="submit" class="" value="Update Profile Pic">
             </form>
                </div>
+                  <a href="profile.jsp"></a>
                   
             
             </div>
@@ -161,14 +182,16 @@
                     <input type="text" pattern="[0-9]" name="zip" id="zip" class="form-control" value="<%=address[2]%>" maxlength=8 required>
                   </div>
                 </div>
+                  <div class="col-md-5"></div>
                      <input type="submit" class="" value="Update Profile"/>
                </form>
+                  <div class="col-md-8"></div>
                <form method="POST" action="DeleteProfile">
-                     <input type="submit" class="" value="Delete Profile" onclick="return confirm('Are you sure you would like to delete your profile?')"/>
+                     <input type="submit" class="btn btn-danger" value="Delete Profile" onclick="return confirm('Are you sure you would like to delete your profile?')"/>
                </form>
                        
         <footer>               
-                <p>&COPY; Gregor Whyte</p>    
+                <p>&COPY; Andy Cobley + Gregor Whyte</p>    
         </footer>
         </div>
         </div>

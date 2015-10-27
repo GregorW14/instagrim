@@ -78,7 +78,7 @@ public class User {
         //two result sets for the two different statements
         ResultSet rs = null;
         ResultSet rs1 = null;
-        //exeuting the boundstatement to check if the login is already in use
+        //executing the boundstatement to check if the login is already in use
         BoundStatement boundStatement = new BoundStatement(ps);
         rs = session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
@@ -106,7 +106,7 @@ public class User {
         }
         //if the checks came back with results allerting the user to the problem
         else{
-            if(rs.isExhausted())
+            if(!rs.isExhausted())
             {
                 return "UsernameFail";
             }
@@ -132,7 +132,7 @@ public class User {
                 boundStatement.bind( // here you are binding the 'boundStatement'
                         username));
         if (rs.isExhausted()) {      
-            System.out.println("No Images returned");
+            System.out.println("Username doesn't exist");
             return false;
         } else {
             for (Row row : rs) {
@@ -178,7 +178,7 @@ public class User {
             strAddress[2] = zipcode;
         }
         catch (Exception e) {
-            System.out.println("getProfile exception"+e);
+            System.out.println("Error --> "+e);
         }
         
         profile.setAddress(strAddress);
@@ -255,7 +255,7 @@ public class User {
             p.setPic(bImage, length, type);
             return p;
         } catch (Exception et) {
-            System.out.println("Error retriving avatar" + et);
+            System.out.println("Error retriving profile picture" + et);
             return null;
         }
     }
@@ -349,5 +349,12 @@ public class User {
             }
         }
     }
+     
+     
+     public LinkedList<ProfileBean> searchUserProfiles(String search)
+     {
+         
+      return null;   
+     }
     
 }

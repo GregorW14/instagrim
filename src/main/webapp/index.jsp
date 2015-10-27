@@ -29,6 +29,24 @@
                     </div>
                 </div>
                 <h2>Your world in Black and White</h2>
+                                    <%
+                        
+                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+                        if (lg != null) {
+                            String UserName = lg.getUsername();
+                            if (lg.getlogedin()) {
+                    %>
+                <form action="/Instagrim/Search" method="POST">
+                    Search: <input type="text" name="searchTerm">
+                    <input type="submit" value="Submit">
+                  </form>
+                    <%
+                            }else{
+                                
+                            }
+                        }
+                                
+                                %>
             </div>
         <div class="row">
             <div class="col-md-3 navItem">
@@ -36,19 +54,22 @@
             </div>
                     <%
                         
-                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
                         if (lg != null) {
-                            String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
-                    <div class="col-md-3 navItem">
-                    <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
-                    </div>
-                
-                <div class="col-md-3 navItem">
-                 <a href="/Instagrim/Profile">Profile</a>
+                    
+                    
+                <div class="col-md-2 navItem">
+                    <a href="/Instagrim/upload.jsp">Upload</a>
                 </div>
-                <div class="col-md-3 navItem">
+                <div class="col-md-2 navItem">
+                    <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
+                </div>
+                
+                <div class="col-md-2 navItem">
+                 <a href="/Instagrim/Profile/<%=lg.getUsername()%>">Profile</a>
+                </div>
+                <div class="col-md-2 navItem">
                     <a href="/Instagrim/Logout" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
                 </div>
                     <%}
@@ -80,7 +101,7 @@
                
             </div>
         <footer> 
-                <p>&COPY; Gregor Whyte</p> 
+                <p>&COPY; Andy Cobley + Gregor Whyte</p> 
         </footer>
        </div>
     </body>

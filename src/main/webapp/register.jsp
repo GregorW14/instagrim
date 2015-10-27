@@ -30,14 +30,19 @@
                     <a href="/Instagrim/">Home</a>
                 </div>
                 <div class="col-md-3 navItem">
-                   <a href="/Instagrim/samplePics.jsp">Sample Images</a>
+                   <a href="/Instagrim/Login">Login</a>
                 </div>
             </div>
        
+            
         <article>
-            <br>
-            <br>
-            <h3>Register as user</h3>
+            <div class="row">
+                <div class="col-md-4">
+                <h3 style="text-align: left;">Register as user</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
             <form method="POST"  action="Register">
                 <ul>
                     <li>User Name <input type="text" name="username"></li>
@@ -52,10 +57,12 @@
                 <br/>
                 <input type="submit" value="Register"> 
             </form>
+                </div>
+            </div>
 
         </article>
         <footer>               
-                <p>&COPY; Gregor Whyte</p>    
+                <p>&COPY; Andy Cobley + Gregor Whyte</p>    
         </footer>
        </div>
     </body>

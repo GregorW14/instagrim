@@ -25,8 +25,8 @@ import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
  *
  * @author Administrator
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "Search", urlPatterns = {"/Search"})
+public class Search extends HttpServlet {
 
     Cluster cluster=null;
 
@@ -39,8 +39,7 @@ public class Login extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-        rd.forward(request, response);
+  
     }
 
     /**
@@ -55,33 +54,14 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        
-        
-        if(username.isEmpty() || password.isEmpty())
-            {
-              response.sendRedirect("login.jsp");
-            }
-        User us=new User();
-        us.setCluster(cluster);
-        boolean isValid=us.IsValidUser(username, password);
-        HttpSession session=request.getSession();
-        System.out.println("Session in servlet "+session);
-        if (isValid){
-            LoggedIn lg= new LoggedIn();
-            lg.setLogedin();
-            lg.setUsername(username);
-            //request.setAttribute("LoggedIn", lg);
-            
-            session.setAttribute("LoggedIn", lg);
-            System.out.println("Session in servlet "+session);
-            RequestDispatcher rd=request.getRequestDispatcher("/");
-	    rd.forward(request,response);
-            
-        }else{
-              RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-              rd.forward(request, response);
+        String searchTerm=request.getParameter("searchTerm");
+        if(searchTerm.equals(""))
+        {
+            response.sendRedirect("/Instagrim");
+        }
+        else
+        { 
+            response.sendRedirect("/Instagrim/Images/" + searchTerm);
         }
         
     }

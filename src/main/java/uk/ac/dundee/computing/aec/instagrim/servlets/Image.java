@@ -25,6 +25,7 @@ import org.apache.commons.fileupload.util.Streams;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
+import uk.ac.dundee.computing.aec.instagrim.stores.CommentBean;
 import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -84,6 +85,7 @@ public class Image extends HttpServlet {
                 DisplayImage(Convertors.DISPLAY_PROCESSED,args[2], response);
                 break;
             case 2:
+                
                 DisplayImageList(args[2], request, response);
                 break;
             case 3:
@@ -98,8 +100,11 @@ public class Image extends HttpServlet {
         PicModel pm = new PicModel();
         pm.setCluster(cluster);
         java.util.LinkedList<Pic> lsPics = pm.getPicsForUser(User);
+        java.util.LinkedList<CommentBean> lsComment = pm.getComments();
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
+        request.setAttribute("Comments", lsComment);
+        request.setAttribute("Username", User);
         rd.forward(request, response);
 
     }
@@ -126,16 +131,18 @@ public class Image extends HttpServlet {
         
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        LoggedIn lg= (LoggedIn)session.getAttribute("LoggedIn");
         for (Part part : request.getParts()) 
         {
             String type = part.getContentType();
+            System.out.println("Type-----------------"+type);
             String filename = part.getSubmittedFileName();
             
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
-            HttpSession session=request.getSession();
-            LoggedIn lg= (LoggedIn)session.getAttribute("LoggedIn");
             String username="majed";
             if (lg.getlogedin()){
                 username=lg.getUsername();
@@ -145,7 +152,8 @@ public class Image extends HttpServlet {
                 is.read(b);
                 PicModel pm = new PicModel();
                 pm.setCluster(cluster);
-                pm.insertPic(b, type, filename, username);
+                String filter = (String)request.getParameter("filterSel");
+                pm.insertPic(b, type, filename, username, filter);
 
                 is.close();
             }

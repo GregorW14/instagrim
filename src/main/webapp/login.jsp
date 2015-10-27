@@ -29,15 +29,31 @@
             <div class="col-md-3 navItem">
                 <a href="/Instagrim/">Home</a>
             </div>
+            <div class="col-md-3 navItem">
+                <a href="/Instagrim/">Register</a>
+            </div>
         </div>
        
         <article>
-            <h3>Login</h3>
+            <div class="row">
+                <div class="col-md-2">
+                    <h3>Login</h3>
+                </div>
+            </div>
+            
             <form method="POST"  action="Login">
-                <ul>
-                    <li>User Name <input type="text" name="username"></li>
-                    <li>Password <input type="password" name="password"></li>
-                </ul>
+                 <div class="row form-group">
+                  <label class="col-md-1 control-label">Username:</label>
+                  <div class="col-md-2">
+                    <input type ="text" name="username" class="form-control">
+                  </div>
+                 </div>
+                <div class="row form-group">
+                  <label class="col-md-1 control-label">Password:</label>
+                  <div class="col-md-2">
+                    <input type ="password" name="password" class="form-control">
+                  </div>
+                 </div>
                 <br/>
                 <input type="submit" value="Login"> 
             </form>

@@ -95,10 +95,11 @@
                 <select class="form-control" name="filterSel">
                     <option value="No Filter">No Filter</option>
                     <option value="GrayScale">GrayScale</option>
+                    <option value="Red">Red</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
                     <option value="Bright">Bright</option>
                     <option value="Dark">Dark</option>
-                    <option value="Hot">Hot</option>
-                    <option value="Cold">Cold</option>
                 </select>
                 <br>
 

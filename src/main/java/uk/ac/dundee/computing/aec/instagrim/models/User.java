@@ -52,7 +52,7 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 /**
  *
- * @author Administrator
+ * @author Greg
  */
 public class User {
     Cluster cluster;
@@ -60,6 +60,13 @@ public class User {
         
     }
     
+        /**
+         * 
+         * @param username
+         * @param Password
+         * @param profile
+         * @return 
+         */
         public String RegisterUser(String username, String Password, ProfileBean profile){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
@@ -114,7 +121,12 @@ public class User {
         }
       }
         
-    
+    /**
+     * 
+     * @param username
+     * @param Password
+     * @return 
+     */
     public boolean IsValidUser(String username, String Password){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
@@ -150,6 +162,13 @@ public class User {
         this.cluster = cluster;
     }
 
+       /**
+        * 
+        * @param profile
+        * @param user
+        * @return
+        * @throws Exception 
+        */
        public ProfileBean getProfile(ProfileBean profile, String user) throws Exception
     {
         Session session = cluster.connect("instagrim");
@@ -185,6 +204,11 @@ public class User {
         
         return profile;
     }
+       
+     /**
+      * 
+      * @param username 
+      */  
      public void deleteUser(String username)
      {
         Session session = cluster.connect("instagrim");
@@ -195,6 +219,16 @@ public class User {
         
     }
      
+     /**
+      * 
+      * @param username
+      * @param firstname
+      * @param lastname
+      * @param email
+      * @param street
+      * @param city
+      * @param zip 
+      */
      public void updateProfile(String username, String firstname, String lastname, String email, String street, String city, int zip)
      {
         Session session = cluster.connect("instagrim");
@@ -226,6 +260,13 @@ public class User {
       
     }
      
+     /**
+      * 
+      * @param profile
+      * @param username
+      * @return
+      * @throws Exception 
+      */
      public Pic getProfilePic(ProfileBean profile, String username) throws Exception
     {        
         try {
@@ -260,6 +301,14 @@ public class User {
         }
     }
      
+      /**
+       * 
+       * @param b
+       * @param type
+       * @param name
+       * @param user
+       * @throws IOException 
+       */
       public void setProfilePicture(byte[] b, String type, String name, String user) throws IOException {
         try 
         {
@@ -283,6 +332,14 @@ public class User {
         }
     }
      
+      /**
+       * 
+       * @param b
+       * @param type
+       * @param name
+       * @param username
+       * @throws IOException 
+       */
      public void updateProfilePic(byte[] b, String type, String name, String username) throws IOException
      {
         //Session session = cluster.connect("instagrim");
@@ -315,6 +372,15 @@ public class User {
         
      }
      
+     /**
+      * 
+      * @param picid
+      * @param type
+      * @param b
+      * @param filter
+      * @return
+      * @throws IOException 
+      */
      public byte[] profilePicresize(String picid, String type, byte[] b, String filter) throws IOException {
         try {
             InputStream bais = new ByteArrayInputStream(b);
@@ -331,6 +397,12 @@ public class User {
         }
     }
      
+     /**
+      * 
+      * @param img
+      * @param filter
+      * @return 
+      */
      public static BufferedImage createProfileThumbnail(BufferedImage img, String filter) {
         
         switch (filter)
@@ -351,6 +423,11 @@ public class User {
     }
      
      
+     /**
+      * 
+      * @param search
+      * @return 
+      */
      public LinkedList<ProfileBean> searchUserProfiles(String search)
      {
          

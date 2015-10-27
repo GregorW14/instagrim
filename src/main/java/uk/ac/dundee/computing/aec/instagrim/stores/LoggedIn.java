@@ -17,22 +17,48 @@ public class LoggedIn {
         
     }
     
+    /**
+     * 
+     * @param name 
+     */
     public void setUsername(String name){
         this.Username=name;
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public String getUsername(){
         return Username;
     }
+    
+    /**
+     * 
+     */
     public void setLogedin(){
         logedin=true;
     }
+    
+    /**
+     * 
+     */
     public void setLogedout(){
         logedin=false;
     }
     
+    /**
+     * 
+     * @param logedin 
+     */
     public void setLoginState(boolean logedin){
         this.logedin=logedin;
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public boolean getlogedin(){
         return logedin;
     }

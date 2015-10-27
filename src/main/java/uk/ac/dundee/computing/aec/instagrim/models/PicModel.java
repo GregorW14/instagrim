@@ -36,18 +36,38 @@ import uk.ac.dundee.computing.aec.instagrim.stores.CommentBean;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 //import uk.ac.dundee.computing.aec.stores.TweetStore;
 
+/**
+ * 
+ * @author Greg
+ */
 public class PicModel {
 
     Cluster cluster;
 
+    /**
+     * 
+     * 
+     */
     public void PicModel() {
 
     }
 
+    /**
+     * 
+     * @param cluster 
+     */
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }
 
+    /**
+     * 
+     * @param b
+     * @param type
+     * @param name
+     * @param user
+     * @param filter 
+     */
     public void insertPic(byte[] b, String type, String name, String user, String filter) {
         try {
             System.out.println("FILTER IN Insert 1----------"+filter);
@@ -91,6 +111,13 @@ public class PicModel {
         }
     }
 
+    /**
+     * 
+     * @param picid
+     * @param type
+     * @param filter
+     * @return 
+     */
     public byte[] picresize(String picid,String type, String filter) {
         try {
             BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
@@ -109,6 +136,13 @@ public class PicModel {
         return null;
     }
     
+    /**
+     * 
+     * @param picid
+     * @param type
+     * @param filter
+     * @return 
+     */
     public byte[] picdecolour(String picid,String type, String filter) {
         try {
             System.out.println("FILTER IN Decolour----------"+filter);
@@ -126,6 +160,12 @@ public class PicModel {
         return null;
     }
 
+    /**
+     * 
+     * @param img
+     * @param filter
+     * @return 
+     */
     public static BufferedImage createThumbnail(BufferedImage img, String filter) {
          // Used for filter colour
         int r = 0;
@@ -148,17 +188,17 @@ public class PicModel {
                 img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
                 return pad(img, 2);
             }
-            case "Hot":
+            case "Red":
             {
                 img = resize(img, Method.SPEED, 250);
                 
                 r = 255;
-                g = 128;
+                g = 120;
                 b = 0;
                 col = (a << 24) | (r << 16) | (g << 8) | b;
                 break;
             }
-            case "Cold":
+            case "Blue":
             {
                 img = resize(img, Method.SPEED, 250);
                 
@@ -167,7 +207,17 @@ public class PicModel {
                 b = 255;
                 col = (a << 24) | (r << 16) | (g << 8) | b;
                 break;
-            }           
+            } 
+            case "Green":
+            {
+                img = resize(img, Method.SPEED, 250);
+                
+                r = 0;
+                g = 255;
+                b = 20;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }    
             case "Bright":
             {
                 img = resize(img, Method.SPEED, 250);
@@ -182,9 +232,9 @@ public class PicModel {
             {
                 img = resize(img, Method.SPEED, 250);
                 
-                r = 32;
-                g = 32;
-                b = 32;
+                r = 0;
+                g = 0;
+                b = 0;
                 col = (a << 24) | (r << 16) | (g << 8) | b;
                 break;
             }            
@@ -206,6 +256,12 @@ public class PicModel {
         return pad(img, 2);
     }
     
+    /**
+     * 
+     * @param img
+     * @param filter
+     * @return 
+     */
    public static BufferedImage createProcessed(BufferedImage img, String filter) {
          // Used for filter colour
         int r = 0;
@@ -251,18 +307,18 @@ public class PicModel {
                 col = (a << 24) | (r << 16) | (g << 8) | b;
                 break;
             }
-            case "Hot":
+            case "Red":
             {
                 int Width=img.getWidth()-1;
                 img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
                 
                 r = 255;
-                g = 128;
+                g = 120;
                 b = 0;
                 col = (a << 24) | (r << 16) | (g << 8) | b;
                 break;
             }
-            case "Cold":
+            case "Blue":
             {
                 int Width=img.getWidth()-1;
                 img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
@@ -270,6 +326,17 @@ public class PicModel {
                 r = 0;
                 g = 20;
                 b = 255;
+                col = (a << 24) | (r << 16) | (g << 8) | b;
+                break;
+            }
+            case "Green":
+            {
+                int Width=img.getWidth()-1;
+                img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
+                
+                r = 0;
+                g = 255;
+                b = 20;
                 col = (a << 24) | (r << 16) | (g << 8) | b;
                 break;
             }
@@ -291,6 +358,11 @@ public class PicModel {
         return pad(img, 4);
     }
    
+   /**
+    * 
+    * @param User
+    * @return 
+    */
     public java.util.LinkedList<Pic> getPicsForUser(String User) {
         java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
         Session session = cluster.connect("instagrim");
@@ -316,6 +388,12 @@ public class PicModel {
         return Pics;
     }
 
+    /**
+     * 
+     * @param image_type
+     * @param picid
+     * @return 
+     */
     public Pic getPic(int image_type, java.util.UUID picid) {
         Session session = cluster.connect("instagrim");
         ByteBuffer bImage = null;
@@ -372,6 +450,10 @@ public class PicModel {
 
     }
     
+    /**
+     * 
+     * @return 
+     */
     public java.util.LinkedList<CommentBean> getComments() 
      {
          java.util.LinkedList<CommentBean> commentList = new java.util.LinkedList<>();
@@ -405,6 +487,12 @@ public class PicModel {
         return commentList;
     }
     
+    /**
+     * 
+     * @param picID
+     * @param user
+     * @param comment 
+     */
     public void addComment(UUID picID, String user, String comment)
     {
         Session session = cluster.connect("instagrim");

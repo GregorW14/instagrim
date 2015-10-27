@@ -18,10 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
@@ -40,6 +36,7 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Images/*"
 })
 @MultipartConfig
+
 
 public class Image extends HttpServlet {
 
@@ -96,6 +93,14 @@ public class Image extends HttpServlet {
         }
     }
 
+    /**
+     * 
+     * @param User
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PicModel pm = new PicModel();
         pm.setCluster(cluster);
@@ -109,6 +114,14 @@ public class Image extends HttpServlet {
 
     }
 
+    /**
+     * 
+     * @param type
+     * @param Image
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void DisplayImage(int type,String Image, HttpServletResponse response) throws ServletException, IOException {
         PicModel pm = new PicModel();
         pm.setCluster(cluster);
@@ -131,6 +144,13 @@ public class Image extends HttpServlet {
         
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -163,6 +183,13 @@ public class Image extends HttpServlet {
 
     }
 
+    /**
+     * 
+     * @param mess
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
 
         PrintWriter out = null;

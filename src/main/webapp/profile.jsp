@@ -17,6 +17,19 @@
         <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     </head>
     <body>
+        <script>
+        function validateZip(evt) {
+            var numCheck = evt || window.event;
+            var key = numCheck.keyCode || numCheck.which;
+            key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if(!regex.test(key)) 
+            {
+                numCheck.returnValue = false;
+                if(numCheck.preventDefault) numCheck.preventDefault();
+            }
+}
+</script>
         <div id="container">
             <div id="header">
                 <div class="row">
@@ -179,7 +192,8 @@
                   <div class="form-group">
                   <label class="col-md-3 control-label">Zip:</label>
                   <div class="col-md-8">
-                    <input type="text" pattern="[0-9]" name="zip" id="zip" class="form-control" value="<%=address[2]%>" maxlength=8 required>
+                      <% int zipInt = Integer.parseInt(address[2]); %>
+                    <input type="text" onkeypress='validateZip(event)' name="zip" id="zip" class="form-control" value="<%=zipInt%>" maxlength="8" required>
                   </div>
                 </div>
                   <div class="col-md-5"></div>

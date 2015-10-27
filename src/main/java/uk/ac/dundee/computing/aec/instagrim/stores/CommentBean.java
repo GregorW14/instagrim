@@ -23,41 +23,67 @@ public class CommentBean {
         
     }
     
+    /**
+     * 
+     * @param commentID 
+     */
     public void setCommentID(UUID commentID){
         
         this.commentID = commentID;        
     }
     
     
+    /**
+     * 
+     * @param comment 
+     */
     public void setComment(String comment){
         
         this.comment = comment;
     }
     
-    
+    /**
+     * 
+     * @param user 
+     */
     public void setUser(String user){
         
         this.user = user;
     }
     
+    /**
+     * 
+     * @param picid 
+     */
     public void setPicID(UUID picid){
         
         
         this.picid = picid;
     }
     
+    /**
+     * 
+     * @param commentDate 
+     */
     public void setCommentDate(Date commentDate){
         
         this.commentDate = commentDate;
     }
     
     //Getters
+    /**
+     * 
+     * @return 
+     */
     public UUID getCommentID(){
         
         return commentID;
     }
     
-    
+    /**
+     * 
+     * @return 
+     */
     public String getComment(){
               
         
@@ -65,6 +91,10 @@ public class CommentBean {
     }
     
     
+    /**
+     * 
+     * @return 
+     */
     public String getUser(){
         
         
@@ -73,6 +103,10 @@ public class CommentBean {
     }
     
     
+    /**
+     * 
+     * @return 
+     */
     public UUID getPicID(){
         
          
@@ -80,6 +114,10 @@ public class CommentBean {
      
     }
     
+    /**
+     * 
+     * @return 
+     */
     public Date getCommentDate(){
         
         

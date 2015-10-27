@@ -28,8 +28,6 @@ import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
 import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.aec.instagrim.stores.ProfileBean;
-import uk.ac.dundee.computing.aec.instagrim.exceptions.*;
-import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 /**
@@ -69,6 +67,14 @@ public class Profile extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param name
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void deleteProfile(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException 
     {   
         String username = name;
@@ -77,6 +83,14 @@ public class Profile extends HttpServlet {
         us.deleteUser(username);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param name
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void updateUserProfile(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException 
     {   
         String username = name;
@@ -94,7 +108,16 @@ public class Profile extends HttpServlet {
         
     }
     
-        protected void updateProfilePic(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException, Exception 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param name
+     * @throws ServletException
+     * @throws IOException
+     * @throws Exception 
+     */
+    protected void updateProfilePic(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException, Exception 
     {   
         
        // String username = name;
@@ -135,6 +158,13 @@ public class Profile extends HttpServlet {
         }
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
@@ -180,6 +210,13 @@ public class Profile extends HttpServlet {
         
     
    
+   /**
+    * 
+    * @param request
+    * @param response
+    * @throws ServletException
+    * @throws IOException 
+    */
    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -216,6 +253,14 @@ public class Profile extends HttpServlet {
         
     }
     
+    /**
+     * 
+     * @param profilepic
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void displayProfilePicture(Pic profilepic, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Pic p = profilepic;
         try (OutputStream out = response.getOutputStream()) {

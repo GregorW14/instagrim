@@ -40,6 +40,11 @@ public class Comment extends HttpServlet
     {
     }
 
+    /**
+     * 
+     * @param config
+     * @throws ServletException 
+     */
     @Override
     public void init(ServletConfig config) throws ServletException 
     {
@@ -47,6 +52,13 @@ public class Comment extends HttpServlet
         cluster = CassandraHosts.getCluster();
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
              throws ServletException, IOException {
@@ -61,6 +73,10 @@ public class Comment extends HttpServlet
     }
    
     
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

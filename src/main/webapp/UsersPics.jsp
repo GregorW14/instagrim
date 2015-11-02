@@ -34,7 +34,7 @@
                             String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
-                <form action="/Instagrim/Search" method="POST">
+                <form action="${pageContext.request.contextPath}/Search" method="POST">
                     Search: <input type="text" name="searchTerm">
                     <input type="submit" value="Submit">
                   </form>
@@ -48,20 +48,20 @@
         <div id="main">
         <div class="row">
             <div class="col-md-3 navItem">
-                <a href="/Instagrim/index.jsp">Home</a>
+                <a href="${pageContext.request.contextPath}/index.jsp">Home</a>
             </div>
             
             <div class="col-md-2 navItem">
-                <a href="/Instagrim/upload.jsp">Upload</a>
+                <a href="${pageContext.request.contextPath}/Upload">Upload</a>
             </div>
             <div class="col-md-2 navItem">
-                <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
+                <a href="${pageContext.request.contextPath}/Images/<%=lg.getUsername()%>">Your Images</a>
             </div>
             <div class="col-md-2 navItem">
-                <a href="/Instagrim/Profile/<%=lg.getUsername()%>">Profile</a>
+                <a href="${pageContext.request.contextPath}/Profile/<%=lg.getUsername()%>">Profile</a>
             </div>
             <div class="col-md-2 navItem">
-                <a href="/Instagrim/Logout" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+                <a href="${pageContext.request.contextPath}/Logout" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
             </div>
             
         </div>
@@ -87,7 +87,7 @@
             <div class="row">
                 <div class="col-md-1"></div>
             <div class="col-md-2">                
-             <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img class="userPic" src="/Instagrim/Image/<%=p.getSUUID()%>"></a><br/><br>
+             <a href="${pageContext.request.contextPath}/Image/<%=p.getSUUID()%>" ><img class="userPic" src="${pageContext.request.contextPath}/Image/<%=p.getSUUID()%>"></a><br/><br>
             </div>
             </div>
              <%
@@ -127,7 +127,7 @@
                     }
                     }
                         %>
-        <form method="POST"  action="/Instagrim/Comment">
+        <form method="POST"  action="${pageContext.request.contextPath}/Comment">
             <div class="row form-group">
                   <label class="col-md-1 control-label">Comment:</label>
                   <div class="col-md-3">

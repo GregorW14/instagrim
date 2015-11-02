@@ -44,7 +44,7 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         
         request.getSession().invalidate();
-        response.sendRedirect("/Instagrim");
+        response.sendRedirect("/Instagregor");
         
         }
        

@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="Style.css" />
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Style.css" />
         <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     </head>
     <body>
@@ -27,10 +27,10 @@
         
             <div class="row">
                 <div class="col-md-3 navItem">
-                    <a href="/Instagrim/">Home</a>
+                    <a href="${pageContext.request.contextPath}/">Home</a>
                 </div>
                 <div class="col-md-3 navItem">
-                   <a href="/Instagrim/Login">Login</a>
+                   <a href="${pageContext.request.contextPath}/Login">Login</a>
                 </div>
             </div>
        

@@ -12,42 +12,27 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.UDTValue;
 import com.datastax.driver.core.UserType;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import javax.imageio.ImageIO;
-import org.imgscalr.Scalr.Method;
-import static org.imgscalr.Scalr.OP_ANTIALIAS;
-import static org.imgscalr.Scalr.OP_GRAYSCALE;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
-import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 import uk.ac.dundee.computing.aec.instagrim.stores.ProfileBean;
 
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.util.Date;
 import java.util.LinkedList;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpSession;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
 
-import uk.ac.dundee.computing.aec.instagrim.lib.*;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 /**
@@ -77,7 +62,7 @@ public class User {
             return "PasswordFail";
         }
         //connecting to the keyspace in cassandra so we know which database to reference
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
         //selecting all userprofiles from the database that have the login provided by the user
         PreparedStatement ps = session.prepare("select * from userprofiles where login =?");
         //selecting all userprofiles from the database that have the email provided by the user
@@ -96,7 +81,7 @@ public class User {
        
         if(rs.isExhausted())
         {
-            UserType addressType = cluster.getMetadata().getKeyspace("instagrim").getUserType("address");
+            UserType addressType = cluster.getMetadata().getKeyspace("instagregor").getUserType("address");
             UDTValue address = addressType.newValue()
                                           .setString("street", profile.getStreet())
                                           .setString("city", profile.getCity())
@@ -136,7 +121,7 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
         PreparedStatement ps = session.prepare("select password from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -171,7 +156,7 @@ public class User {
         */
        public ProfileBean getProfile(ProfileBean profile, String user) throws Exception
     {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
         PreparedStatement ps = session.prepare("select * from userprofiles where login=?");
         ResultSet rs = null;
         BoundStatement bs = new BoundStatement(ps);
@@ -211,7 +196,7 @@ public class User {
       */  
      public void deleteUser(String username)
      {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
 
         PreparedStatement ps = session.prepare("DELETE from userprofiles WHERE login=?");
         BoundStatement selectUser = new BoundStatement(ps);
@@ -231,7 +216,7 @@ public class User {
       */
      public void updateProfile(String username, String firstname, String lastname, String email, String street, String city, int zip)
      {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
 
         PreparedStatement ps = session.prepare("update userprofiles set first_name= ? WHERE login= ?");
         BoundStatement bs = new BoundStatement(ps);
@@ -247,7 +232,7 @@ public class User {
         
         ps = session.prepare("update userprofiles set addresses= ? WHERE login= ?");
         bs = new BoundStatement(ps);
-        UserType addressType = cluster.getMetadata().getKeyspace("instagrim").getUserType("address");
+        UserType addressType = cluster.getMetadata().getKeyspace("instagregor").getUserType("address");
             UDTValue address = addressType.newValue()
                                           .setString("street", street)
                                           .setString("city", city)
@@ -270,7 +255,7 @@ public class User {
      public Pic getProfilePic(ProfileBean profile, String username) throws Exception
     {        
         try {
-            Session session = cluster.connect("instagrim");
+            Session session = cluster.connect("instagregor");
             ByteBuffer bImage = null;
             String type = null;
             int length = 0;
@@ -318,7 +303,7 @@ public class User {
             byte[] thumbb = profilePicresize(picid.toString(), types[1], b, "normal");
             int thumblength = thumbb.length;
             ByteBuffer thumbbuf = ByteBuffer.wrap(thumbb);
-            Session session = cluster.connect("instagrim");//Connect to Instagrim db
+            Session session = cluster.connect("instagregor");//Connect to Instagrim db
             ByteBuffer buffer = ByteBuffer.wrap(b);
             PreparedStatement psInsertProfilePicture = session.prepare("insert into profilepics (picid, image, thumb, user, imagelength, thumblength, type, name) values(?,?,?,?,?,?,?,?)");
             BoundStatement bsInsertProfilePicture = new BoundStatement(psInsertProfilePicture);
@@ -356,7 +341,7 @@ public class User {
             byte[] thumbb = profilePicresize(picid.toString(), types[1], b, "normal");
             int thumblength = thumbb.length;
             ByteBuffer thumbbuf = ByteBuffer.wrap(thumbb);
-            Session session = cluster.connect("instagrim");//Connect to Instagrim db
+            Session session = cluster.connect("instagregor");//Connect to Instagrim db
             ByteBuffer buffer = ByteBuffer.wrap(b);
             
             PreparedStatement ps = session.prepare("update profilepics set image=?, thumb=?, imagelength =?, thumblength =?, type =?, name =? where user =?");

@@ -11,8 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="Style.css" />
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Style.css" />
         <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     </head>
     <body>
@@ -32,7 +32,7 @@
                             String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
-                <form action="/Instagrim/Search" method="POST">
+                <form action="${pageContext.request.contextPath}/Search" method="POST">
                     Search: <input type="text" name="searchTerm">
                     <input type="submit" value="Submit">
                   </form>
@@ -45,7 +45,7 @@
                                 %>
             <div class="row">
             <div class="col-md-3 navItem">
-                <a href="/Instagrim/">Home</a>
+                <a href="${pageContext.request.contextPath}/">Home</a>
             </div>
                 <%
                         
@@ -55,16 +55,16 @@
                         {
                 %>
             <div class="col-md-2 navItem">
-                <a href="/Instagrim/upload.jsp">Upload</a>
+                <a href="${pageContext.request.contextPath}/upload.jsp">Upload</a>
             </div>
             <div class="col-md-2 navItem">
-                <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
+                <a href="${pageContext.request.contextPath}/Images/<%=lg.getUsername()%>">Your Images</a>
             </div>
             <div class="col-md-2 navItem">
-                 <a href="/Instagrim/Profile/<%=lg.getUsername()%>">Profile</a>
+                 <a href="${pageContext.request.contextPath}/Profile/<%=lg.getUsername()%>">Profile</a>
             </div>
             <div class="col-md-2 navItem">
-                <a href="/Instagrim/Logout" onclick="return confirm('Are you sure want to logout?')">Logout</a>
+                <a href="${pageContext.request.contextPath}/Logout" onclick="return confirm('Are you sure want to logout?')">Logout</a>
             </div>
             
                 <%  
@@ -74,10 +74,10 @@
                     {
                 %>
                 <div class="col-md-4 navItem">
-                    <a href="/Instagrim/Login">Login</a>
+                    <a href="${pageContext.request.contextPath}/Login">Login</a>
                 </div>
                 <div class="col-md-4 navItem">
-                    <a href="/Instagrim/Register">Register</a>
+                    <a href="${pageContext.request.contextPath}/Register">Register</a>
                 </div>
                 <%
                     }

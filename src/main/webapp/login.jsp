@@ -27,10 +27,10 @@
             </div>
         <div class="row">
             <div class="col-md-3 navItem">
-                <a href="/Instagrim/">Home</a>
+                <a href="${pageContext.request.contextPath}/">Home</a>
             </div>
             <div class="col-md-3 navItem">
-                <a href="/Instagrim/">Register</a>
+                <a href="${pageContext.request.contextPath}/">Register</a>
             </div>
         </div>
        

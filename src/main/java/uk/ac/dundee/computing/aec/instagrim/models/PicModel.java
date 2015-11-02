@@ -82,8 +82,8 @@ public class PicModel {
             System.out.println("FILTER IN Insert 5----------"+filter);
             
             //The following is a quick and dirty way of doing this, will fill the disk quickly !
-            Boolean success = (new File("/var/tmp/instagrim/")).mkdirs();
-            FileOutputStream output = new FileOutputStream(new File("/var/tmp/instagrim/" + picid));
+            Boolean success = (new File("/var/tmp/instagregor/")).mkdirs();
+            FileOutputStream output = new FileOutputStream(new File("/var/tmp/instagregor/" + picid));
             
             System.out.println("FILTER IN Insert--xx--------"+filter);
 
@@ -94,7 +94,7 @@ public class PicModel {
             byte[] processedb = picdecolour(picid.toString(),types[1], filter);
             ByteBuffer processedbuf=ByteBuffer.wrap(processedb);
             int processedlength=processedb.length;
-            Session session = cluster.connect("instagrim");
+            Session session = cluster.connect("instagregor");
 
             PreparedStatement psInsertPic = session.prepare("insert into pics ( picid, image,thumb,processed, user, interaction_time,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?,?)");
             PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added) values(?,?,?)");
@@ -120,7 +120,7 @@ public class PicModel {
      */
     public byte[] picresize(String picid,String type, String filter) {
         try {
-            BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
+            BufferedImage BI = ImageIO.read(new File("/var/tmp/instagregor/" + picid));
             System.out.println("FILTER IN Resize----------"+filter);
             BufferedImage thumbnail = createThumbnail(BI, filter);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -146,7 +146,7 @@ public class PicModel {
     public byte[] picdecolour(String picid,String type, String filter) {
         try {
             System.out.println("FILTER IN Decolour----------"+filter);
-            BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
+            BufferedImage BI = ImageIO.read(new File("/var/tmp/instagregor/" + picid));
             BufferedImage processed = createProcessed(BI, filter);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(processed, type, baos);
@@ -365,7 +365,7 @@ public class PicModel {
     */
     public java.util.LinkedList<Pic> getPicsForUser(String User) {
         java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
         PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -395,7 +395,7 @@ public class PicModel {
      * @return 
      */
     public Pic getPic(int image_type, java.util.UUID picid) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
         ByteBuffer bImage = null;
         String type = null;
         int length = 0;
@@ -457,7 +457,7 @@ public class PicModel {
     public java.util.LinkedList<CommentBean> getComments() 
      {
          java.util.LinkedList<CommentBean> commentList = new java.util.LinkedList<>();
-         Session session = cluster.connect("instagrim");
+         Session session = cluster.connect("instagregor");
         try 
         {
             PreparedStatement ps = session.prepare("select * from commentlist");
@@ -495,7 +495,7 @@ public class PicModel {
      */
     public void addComment(UUID picID, String user, String comment)
     {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagregor");
         try 
         {
             UUID commentId = UUID.randomUUID();

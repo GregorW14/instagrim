@@ -235,7 +235,7 @@ public class Profile extends HttpServlet {
         {
             try {
                 updateProfilePic(request, response, username);
-                response.sendRedirect("/Instagrim/Profile/"+lg.getUsername());
+                response.sendRedirect("/Instagregor/Profile/"+lg.getUsername());
             } catch (Exception ex) {
                 Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -243,12 +243,12 @@ public class Profile extends HttpServlet {
         else if (args[2].equals("UpdateProfile"))
         {
             updateUserProfile(request, response, username);
-            response.sendRedirect("/Instagrim/Profile/"+lg.getUsername());
+            response.sendRedirect("/Instagregor/Profile/"+lg.getUsername());
         }
         else if (args[2].equals("DeleteProfile"))
         {
             deleteProfile(request, response, username);
-            response.sendRedirect("/Instagrim/Logout");
+            response.sendRedirect("/Instagregor/Logout");
         }
         
     }

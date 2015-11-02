@@ -64,11 +64,11 @@ public class Search extends HttpServlet {
         String searchTerm=request.getParameter("searchTerm");
         if(searchTerm.equals(""))
         {
-            response.sendRedirect("/Instagrim");
+            response.sendRedirect("/Instagregor");
         }
         else
         { 
-            response.sendRedirect("/Instagrim/Images/" + searchTerm);
+            response.sendRedirect("/Instagregor/Images/" + searchTerm);
         }
         
     }

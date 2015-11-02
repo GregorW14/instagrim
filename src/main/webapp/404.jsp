@@ -28,7 +28,7 @@
         <br>
         <br>
         <ul>
-            <li><a href = "/${pageContext.request.contextPath}">Home</a></li>
+            <li><a href = "${pageContext.request.contextPath}">Home</a></li>
             <li><a href="javascript:history.back();">Previous Page</a></li>
         </ul>
         
